@@ -1,5 +1,3 @@
-# Rust_Exercise
-
 # Hurricane Service Implementation
 
 Project created and build using the following tools:
