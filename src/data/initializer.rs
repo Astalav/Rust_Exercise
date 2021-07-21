@@ -31,7 +31,7 @@ pub fn load() -> Result<(), Error>{
 
     storage::set_propability_by_month(propability_by_month);
 
-    return Ok(())
+    return Ok(());
 }
 
 fn update_year_and_month_with_most_hurricanes(
@@ -53,10 +53,10 @@ fn update_year_and_month_with_most_hurricanes(
     };
 
     if highest_hurricane_count_for_month <= year_and_month_with_most_hurricanes.2 {
-        return year_and_month_with_most_hurricanes
+        return year_and_month_with_most_hurricanes;
     } else {
         let month_index = month_converter::get_index_from_month_name(&record[0]);
-        return (year.parse::<u16>().unwrap(), month_index, highest_hurricane_count_for_month)
+        return (year.parse::<u16>().unwrap(), month_index, highest_hurricane_count_for_month);
     }
 }
 
@@ -74,13 +74,13 @@ fn update_propability_by_month(propability_by_month: [f32; 12], record: &csv::St
     };
 
     if years_with_hurricanes == 0 {
-        return propability_by_month
+        return propability_by_month;
     } else {
         let month_index = month_converter::get_index_from_month_name(&record[0]);
         let month_average = years_with_hurricanes as f32 / number_of_years as f32;
         let mut new_array = propability_by_month.clone();
 
         new_array[usize::from(month_index)] = month_average; 
-        return new_array
+        return new_array;
     }
 }

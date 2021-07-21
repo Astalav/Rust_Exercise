@@ -17,5 +17,8 @@ fn rocket() -> _ {
     }
 
     rocket::build()
-        .mount("/hurricanes", routes![propability_by_month::execute, year_and_month_with_most_hurricanes::execute])
+        .mount("/hurricanes", routes![
+            propability_by_month::execute, 
+            year_and_month_with_most_hurricanes::execute,
+        ])
 }
