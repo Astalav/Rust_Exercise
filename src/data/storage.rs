@@ -1,14 +1,15 @@
-pub static mut MOST_COMMON_MONTH: Option<(u8, f32)> = None;
+
+pub static mut YEAR_AND_MONTH_WITH_MOST_HURRICANES: Option<(u16, u8, u8)> = None;
 
 pub static mut PROPABILITY_BY_MONTH: Option<[f32; 12]> = None;
 
-pub fn set_most_common_month(month: u8, occurances: f32) -> Result<(), &'static str> {
+pub fn set_year_and_month_with_most_hurricanes((year, month, occurances): (u16 , u8, u8)) -> Result<(), &'static str> {
     if month < 1 || month > 12 { 
         Err("Invalid Input!")
     } else { 
         unsafe {
             // Since we use this as a simple one-time write, n-time access Data storage unsafe should be fine here
-            MOST_COMMON_MONTH = Some((month, occurances));
+            YEAR_AND_MONTH_WITH_MOST_HURRICANES = Some((year, month, occurances));
         }
         Ok(())
     }

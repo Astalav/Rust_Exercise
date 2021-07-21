@@ -1,8 +1,8 @@
 use super::storage;
 
-pub fn get_most_common_month() -> (u8, f32) {
+pub fn get_year_and_month_with_most_hurricanes() -> (u16, u8, u8) {
     unsafe {
-        match storage::MOST_COMMON_MONTH {
+        match storage::YEAR_AND_MONTH_WITH_MOST_HURRICANES {
             Some(data) => return data,
             None => panic!("Datastorage is not set yet! Access to uninitialized data is impossible.")
         }

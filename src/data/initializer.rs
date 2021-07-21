@@ -11,18 +11,20 @@ pub fn load() -> Result<(), Error>{
         Err(error) => return Err(error),
     };
 
-    let mut most_common_month: (u8, f32) = (0, 0.0);
+    let mut year_and_month_with_most_hurricanes: (u16, u8, u8) = (0, 0, 0);
     let mut propability_by_month: [f32; 12] = [0.0; 12];
 
     let mut reader = csv::Reader::from_reader(csv.as_bytes());
+    let headers = reader.headers()?.clone();
+
     for record in reader.records() {
         let record = record?;
 
-        most_common_month = update_most_common_month(most_common_month, &record);
+        year_and_month_with_most_hurricanes = update_year_and_month_with_most_hurricanes(year_and_month_with_most_hurricanes, &record, &headers);
         propability_by_month = update_propability_by_month(propability_by_month, &record);
     }
-    
-    match storage::set_most_common_month(most_common_month.0, most_common_month.1) {
+
+    match storage::set_year_and_month_with_most_hurricanes(year_and_month_with_most_hurricanes) {
         Ok(_) => (),
         Err(error) => return Err(Error::new(ErrorKind::Other, error)),
     };
@@ -32,14 +34,29 @@ pub fn load() -> Result<(), Error>{
     return Ok(())
 }
 
-fn update_most_common_month(most_common_month: (u8, f32), record: &csv::StringRecord) -> (u8, f32) {
-    let month_average = record[1].trim().to_string().parse::<f32>().unwrap();
+fn update_year_and_month_with_most_hurricanes(
+    year_and_month_with_most_hurricanes: (u16, u8, u8), 
+    record: &csv::StringRecord, 
+    headers: &csv::StringRecord,
+) -> (u16, u8, u8) {
+    let record_length = record.len() - 1;
+    
+    let mut highest_hurricane_count_for_month = 0;
+    let mut year: String = "".to_string();
 
-    if month_average > most_common_month.1 {
-        let month_index = month_converter::get_index_from_month_name(&record[0]);
-        return (month_index, month_average);
+    for i in 2..record_length {
+        let hurricane_count_for_year = record[i].trim().to_string().parse::<u8>().unwrap();
+        if hurricane_count_for_year > highest_hurricane_count_for_month {
+            highest_hurricane_count_for_month = hurricane_count_for_year;
+            year = String::from(headers[i].trim()).replace("\"", "");
+        } 
+    };
+
+    if highest_hurricane_count_for_month <= year_and_month_with_most_hurricanes.2 {
+        return year_and_month_with_most_hurricanes
     } else {
-        return most_common_month
+        let month_index = month_converter::get_index_from_month_name(&record[0]);
+        return (year.parse::<u16>().unwrap(), month_index, highest_hurricane_count_for_month)
     }
 }
 

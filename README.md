@@ -19,7 +19,7 @@ This can be done by a tool like Postman or by simply opening the URL inside a br
 
 http://127.0.0.1:8000/hurricanes/propability_by_month?month=6 (Valid values for the month parameter range from 1 to 12)
 
-http://127.0.0.1:8000/hurricanes/most_common_month
+http://127.0.0.1:8000/hurricanes/year_and_month_with_most_hurricanes
 
 # How to start unittests
 

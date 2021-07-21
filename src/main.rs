@@ -4,8 +4,8 @@ mod endpoints;
 mod data;
 mod util;
 
-use endpoints::most_common_month;
 use endpoints::propability_by_month;
+use endpoints::year_and_month_with_most_hurricanes;
 use data::initializer;
 
 
@@ -17,5 +17,5 @@ fn rocket() -> _ {
     }
 
     rocket::build()
-        .mount("/hurricanes", routes![most_common_month::execute, propability_by_month::execute])
+        .mount("/hurricanes", routes![propability_by_month::execute, year_and_month_with_most_hurricanes::execute])
 }
