@@ -23,4 +23,4 @@ http://127.0.0.1:8000/hurricanes/year_and_month_with_most_hurricanes
 
 # How to start unittests
 
-!ToDo!
+Run 'cargo test' in the root directory.

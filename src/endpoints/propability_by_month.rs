@@ -1,3 +1,5 @@
+use rocket::local::blocking::Client;
+
 use crate::data::read_access;
 use crate::util::month_converter;
 
@@ -17,4 +19,12 @@ pub fn execute(month: u8) -> String {
     let readable_propability = format!("{:.2}%", (propability * 100.0));
 
     return format!("The hurricane propability for the month {} is {}!", month_name, readable_propability);
+}
+
+
+#[test]
+fn test() {
+    let client = Client::tracked(crate::rocket()).unwrap();
+    let response = client.get("/hurricanes/propability_by_month?month=8").dispatch();
+    assert_eq!(response.into_string(), Some("The hurricane propability for the month Aug is 90.91%!".into()));
 }

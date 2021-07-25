@@ -16,6 +16,18 @@ pub fn get_index_from_month_name(month_name: &str) -> u8 {
     }
 }
 
+#[test]
+fn get_index_from_month_name_test() {
+    assert_eq!(get_index_from_month_name("Jan"), 0);
+    assert_eq!(get_index_from_month_name("Dec"), 11);
+}
+
+#[test]
+#[should_panic]
+fn get_index_from_month_name_test_panic() {
+    get_index_from_month_name("any");
+}
+
 pub fn get_month_name_from_index(month_index: u8) -> &'static str {
     match month_index {
         0 => "Jan",
@@ -32,4 +44,16 @@ pub fn get_month_name_from_index(month_index: u8) -> &'static str {
         11 => "Dec",
         _ => panic!("Error while parsing input"),
     }
+}
+
+#[test]
+fn get_month_name_from_index_test() {
+    assert_eq!(get_month_name_from_index(0), "Jan");
+    assert_eq!(get_month_name_from_index(11), "Dec");
+}
+
+#[test]
+#[should_panic]
+fn get_month_name_from_index_test_panic() {
+    get_month_name_from_index(12);
 }
